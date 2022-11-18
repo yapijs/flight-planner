@@ -1,11 +1,7 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.admin_api;
 
-import io.codelex.flightplanner.domain.AddFlightRequest;
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,23 +9,26 @@ import java.util.List;
 public class AdminInMemoryRepository {
 
     List<Flight> flightList = new ArrayList<>();
+    private long lastUsedId;
 
     public AdminInMemoryRepository() {
+        lastUsedId = 0;
     }
 
     public List<Flight> getFlightList() {
         return flightList;
     }
 
-    public Flight addFlight(Flight flight) {
+    Flight addFlight(Flight flight) {
         getFlightList().add(flight);
-        return getFlightList().get(getFlightList().size() - 1);
+        this.lastUsedId++;
+        //return getFlightList().get(getFlightList().size() - 1);
+        return flight;
     }
 
-    protected long getNextId() {
-        return getFlightList().size();
+    long getNextId() {
+        return this.lastUsedId;
     }
 
-    public void deleteAll() {
-    }
+
 }

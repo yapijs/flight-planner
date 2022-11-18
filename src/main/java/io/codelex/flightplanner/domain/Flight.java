@@ -2,6 +2,7 @@ package io.codelex.flightplanner.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Flight {
     private long id;
@@ -66,5 +67,22 @@ public class Flight {
 
     public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return from.equals(flight.from)
+                && to.equals(flight.to)
+                && carrier.equals(flight.carrier)
+                && departureTime.equals(flight.departureTime)
+                && arrivalTime.equals(flight.arrivalTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, carrier, departureTime, arrivalTime);
     }
 }

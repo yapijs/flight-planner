@@ -1,9 +1,21 @@
 package io.codelex.flightplanner.domain;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class AddFlightRequest {
+    @Valid
+    @NotNull
     private Airport from;
+    @Valid
+    @NotNull
     private Airport to;
+    @NotBlank
     private String carrier;
+    @NotBlank
     private String departureTime;
+    @NotBlank
     private String arrivalTime;
 
     public AddFlightRequest(Airport from, Airport to, String carrier, String departureTime, String arrivalTime) {
