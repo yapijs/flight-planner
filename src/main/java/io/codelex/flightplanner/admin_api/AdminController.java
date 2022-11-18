@@ -2,13 +2,13 @@ package io.codelex.flightplanner.admin_api;
 
 import io.codelex.flightplanner.domain.AddFlightRequest;
 import io.codelex.flightplanner.domain.AddFlightResponse;
+import io.codelex.flightplanner.domain.Flight;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-//@Validated
 @RequestMapping("/admin-api")
 public class AdminController {
 
@@ -23,4 +23,16 @@ public class AdminController {
     public AddFlightResponse addFlight(@Valid @RequestBody AddFlightRequest addFlightRequest) {
         return adminService.addFlight(addFlightRequest);
     }
+
+    @GetMapping("/flights/{id}")
+    public AddFlightResponse fetchFlight(@PathVariable("id") Long id) {
+        return adminService.fetchFlight(id);
+    }
+
+    @DeleteMapping("/flights/{id}")
+    //@ResponseStatus(HttpStatus.OK)
+    public void deleteFlight(@PathVariable("id") Long id) {
+        adminService.deleteFlight(id);
+    }
+
 }

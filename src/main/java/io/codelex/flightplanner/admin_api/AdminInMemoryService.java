@@ -80,4 +80,29 @@ public class AdminInMemoryService {
     private DateTimeFormatter getFormatter() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
+
+    public AddFlightResponse fetchFlight(long flightId) {
+        Flight flight = findFlight(flightId);
+        if (flight != null) {
+            return createNewResponseFlightObject(findFlight(flightId));
+        } else {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private Flight findFlight(long flightId) {
+        return adminInMemoryRepository.getFlightList()
+                .stream()
+                .filter( flight -> flight.getId() == flightId)
+                .findFirst()
+                .orElse(null);
+                //.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public void deleteFlight(Long flightId) {
+        Flight flightToDelete = findFlight(flightId);
+        if (flightToDelete != null) {
+            adminInMemoryRepository.getFlightList().remove(flightToDelete);
+        }
+    }
 }

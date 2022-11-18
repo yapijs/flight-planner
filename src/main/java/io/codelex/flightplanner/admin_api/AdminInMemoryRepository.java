@@ -9,10 +9,10 @@ import java.util.List;
 public class AdminInMemoryRepository {
 
     List<Flight> flightList = new ArrayList<>();
-    private long lastUsedId;
+    private long nextId;
 
     public AdminInMemoryRepository() {
-        lastUsedId = 0;
+        nextId = 0;
     }
 
     public List<Flight> getFlightList() {
@@ -21,14 +21,15 @@ public class AdminInMemoryRepository {
 
     Flight addFlight(Flight flight) {
         getFlightList().add(flight);
-        this.lastUsedId++;
-        //return getFlightList().get(getFlightList().size() - 1);
+        this.nextId++;
         return flight;
     }
 
     long getNextId() {
-        return this.lastUsedId;
+        return this.nextId;
     }
 
-
+//    public void resetLastUsedId() {
+//        this.nextId = 0;
+//    }
 }
