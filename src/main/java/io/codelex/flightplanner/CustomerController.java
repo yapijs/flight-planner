@@ -1,11 +1,9 @@
 package io.codelex.flightplanner;
 
-import io.codelex.flightplanner.domain.Airport;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import io.codelex.flightplanner.domain.*;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,5 +19,15 @@ public class CustomerController {
     @GetMapping("/airports")
     public List<Airport> searchAirports(@RequestParam String search) {
         return customerService.searchAirports(search);
+    }
+
+    @PostMapping("/flights/search")
+    public PageResult<Flight> searchFlight(@Valid @RequestBody SearchFlightRequest searchFlightRequest) {
+        return customerService.searchFlights(searchFlightRequest);
+    }
+
+    @GetMapping("/flights/{id}")
+    public AddFlightResponse findFlightById(@PathVariable long id) {
+        return customerService.findFlightById(id);
     }
 }
