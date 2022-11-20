@@ -1,19 +1,18 @@
-package io.codelex.flightplanner.admin_api;
+package io.codelex.flightplanner.api.admin;
 
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AdminInMemoryRepository {
 
     List<Flight> flightList = new ArrayList<>();
-    private AtomicInteger nextId;
+    private int nextId;
 
     public AdminInMemoryRepository() {
-        nextId = new AtomicInteger(0);
+        nextId = 0;
     }
 
     public List<Flight> getFlightList() {
@@ -22,18 +21,15 @@ public class AdminInMemoryRepository {
 
     Flight addFlight(Flight flight) {
         getFlightList().add(flight);
-        //this.nextId++;
-        this.nextId.getAndIncrement();
+        this.nextId++;
         return flight;
     }
 
-    AtomicInteger getNextId() {
+    int getNextId() {
         return this.nextId;
     }
 
-
-
     public void resetLastUsedId() {
-        this.nextId.set(0);
+        this.nextId = 0;
     }
 }

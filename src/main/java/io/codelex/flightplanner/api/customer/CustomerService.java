@@ -1,14 +1,15 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.api.customer;
 
-import io.codelex.flightplanner.admin_api.AdminInMemoryRepository;
+import io.codelex.flightplanner.api.admin.AdminInMemoryRepository;
 import io.codelex.flightplanner.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.codelex.flightplanner.api.common.CommonFunctions.createNewResponseFlightObject;
 
 @Service
 public class CustomerService {
@@ -71,20 +72,5 @@ public class CustomerService {
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-
-    private AddFlightResponse createNewResponseFlightObject(Flight flight) {
-        return new AddFlightResponse(
-                flight.getId(),
-                flight.getFrom(),
-                flight.getTo(),
-                flight.getCarrier(),
-                getFormatter().format(flight.getDepartureTime()),
-                getFormatter().format((flight.getArrivalTime()))
-        );
-    }
-
-    private DateTimeFormatter getFormatter() {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
 }

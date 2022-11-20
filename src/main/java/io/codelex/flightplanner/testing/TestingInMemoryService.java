@@ -1,6 +1,6 @@
-package io.codelex.flightplanner.testing_api;
+package io.codelex.flightplanner.testing;
 
-import io.codelex.flightplanner.admin_api.AdminInMemoryRepository;
+import io.codelex.flightplanner.api.admin.AdminInMemoryRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.admin_api;
+package io.codelex.flightplanner.api.admin;
 
 import io.codelex.flightplanner.domain.AddFlightRequest;
 import io.codelex.flightplanner.domain.AddFlightResponse;
@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static io.codelex.flightplanner.api.common.CommonFunctions.createNewResponseFlightObject;
+import static io.codelex.flightplanner.api.common.CommonFunctions.getFormatter;
 
 @Service
 public class AdminInMemoryService {
@@ -18,7 +20,6 @@ public class AdminInMemoryService {
     public AdminInMemoryService(AdminInMemoryRepository adminInMemoryRepository) {
         this.adminInMemoryRepository = adminInMemoryRepository;
     }
-
 
     public AddFlightResponse addFlight(AddFlightRequest addFlightRequest) {
         validateAddingFlightRequest(addFlightRequest);
@@ -35,12 +36,8 @@ public class AdminInMemoryService {
     private void validateAddingFlightRequest(AddFlightRequest addFlightRequest) {
         if (validateDatesAddFlightRequest(addFlightRequest)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect dates!");
-//            System.out.println("incorrect dates=\n" + addFlightRequest.toString());
-//            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Incorrect dates!");
         }
         if (validateAirportsAddFlightRequest(addFlightRequest)) {
-//            System.out.println("same airports=\n" + addFlightRequest.toString());
-//            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Same airports entered!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Same airports entered!");
         }
 
@@ -61,28 +58,13 @@ public class AdminInMemoryService {
     private Flight createNewFlightObject(AddFlightRequest addFlightRequest) {
 
         return new Flight(
-                adminInMemoryRepository.getNextId().intValue(),
+                adminInMemoryRepository.getNextId(),
                 addFlightRequest.getFrom(),
                 addFlightRequest.getTo(),
                 addFlightRequest.getCarrier(),
                 LocalDateTime.parse(addFlightRequest.getDepartureTime(), getFormatter()),
                 LocalDateTime.parse(addFlightRequest.getArrivalTime(), getFormatter())
         );
-    }
-
-    private AddFlightResponse createNewResponseFlightObject(Flight flight) {
-        return new AddFlightResponse(
-                flight.getId(),
-                flight.getFrom(),
-                flight.getTo(),
-                flight.getCarrier(),
-                getFormatter().format(flight.getDepartureTime()),
-                getFormatter().format((flight.getArrivalTime()))
-        );
-    }
-
-    private DateTimeFormatter getFormatter() {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
 
     public AddFlightResponse fetchFlight(int flightId) {

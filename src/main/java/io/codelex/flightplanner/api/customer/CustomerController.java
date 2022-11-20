@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.api.customer;
 
 import io.codelex.flightplanner.domain.*;
 import org.springframework.web.bind.annotation.*;
