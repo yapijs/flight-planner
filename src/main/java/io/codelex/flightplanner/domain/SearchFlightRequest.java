@@ -1,7 +1,5 @@
 package io.codelex.flightplanner.domain;
 
-import org.springframework.cglib.core.Local;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -60,5 +58,14 @@ public class SearchFlightRequest {
     @Override
     public int hashCode() {
         return Objects.hash(from, to, departureDate);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchFlightRequest{" +
+                "from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", departureDate=" + departureDate +
+                '}';
     }
 }

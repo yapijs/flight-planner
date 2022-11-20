@@ -14,6 +14,6 @@ public class TestingInMemoryService {
 
     public void clearData() {
         adminInMemoryRepository.getFlightList().clear();
-        //adminInMemoryRepository.resetLastUsedId();
+        adminInMemoryRepository.resetLastUsedId();
     }
 }

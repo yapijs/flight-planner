@@ -1,6 +1,5 @@
 package io.codelex.flightplanner.domain;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +49,15 @@ public class PageResult<T> {
     @Override
     public int hashCode() {
         return Objects.hash(page, totalItems, items);
+    }
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "page=" + page +
+                ", totalItems=" + totalItems +
+                ", items=" + items +
+                '}';
     }
 }
 

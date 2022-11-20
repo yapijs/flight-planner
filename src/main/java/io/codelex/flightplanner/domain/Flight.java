@@ -1,18 +1,17 @@
 package io.codelex.flightplanner.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Flight {
-    private long id;
+    private int id;
     private Airport from;
     private Airport to;
     private String carrier;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
 
-    public Flight(long id, Airport from, Airport to, String carrier, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+    public Flight(int id, Airport from, Airport to, String carrier, LocalDateTime departureTime, LocalDateTime arrivalTime) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -21,11 +20,11 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

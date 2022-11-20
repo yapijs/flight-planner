@@ -24,13 +24,12 @@ public class AdminController {
     }
 
     @GetMapping("/flights/{id}")
-    public AddFlightResponse fetchFlight(@PathVariable("id") Long id) {
+    public AddFlightResponse fetchFlight(@PathVariable("id") int id) {
         return adminService.fetchFlight(id);
     }
 
     @DeleteMapping("/flights/{id}")
-    //@ResponseStatus(HttpStatus.OK)
-    public void deleteFlight(@PathVariable("id") Long id) {
+    public void deleteFlight(@PathVariable("id") int id) {
         adminService.deleteFlight(id);
     }
 

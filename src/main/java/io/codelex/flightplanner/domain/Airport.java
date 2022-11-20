@@ -43,7 +43,7 @@ public class Airport {
     }
 
     public String formatAirport() {
-        return this.getAirport().toUpperCase();
+        return this.getAirport().toUpperCase().trim();
     }
 
     public String formatCity() {
@@ -56,10 +56,11 @@ public class Airport {
 
     private String formatFirstLetters(String text) {
         String[] arrayOfWords = text.split(" ");
-        for (String string : arrayOfWords) {
-            string = string.substring(0, 1).toUpperCase() + string.substring(1);
+        String[] result = new String[arrayOfWords.length];
+        for (int i = 0; i < arrayOfWords.length; i++) {
+            result[i] = arrayOfWords[i].substring(0, 1).toUpperCase() + arrayOfWords[i].substring(1);
         }
-        return Arrays.stream(arrayOfWords).reduce("", (s, s2) ->  s + " " + s2);
+        return Arrays.stream(result).reduce("", (s, s2) ->  s + " " + s2).trim();
     }
 
     @Override
@@ -73,5 +74,14 @@ public class Airport {
     @Override
     public int hashCode() {
         return Objects.hash(country, city, airport);
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", airport='" + airport + '\'' +
+                '}';
     }
 }

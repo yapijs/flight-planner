@@ -3,6 +3,7 @@ package io.codelex.flightplanner.domain;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class AddFlightRequest {
     @Valid
@@ -64,5 +65,29 @@ public class AddFlightRequest {
 
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddFlightRequest that = (AddFlightRequest) o;
+        return Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(carrier, that.carrier) && Objects.equals(departureTime, that.departureTime) && Objects.equals(arrivalTime, that.arrivalTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, carrier, departureTime, arrivalTime);
+    }
+
+    @Override
+    public String toString() {
+        return "AddFlightRequest{" +
+                "from=" + from +
+                ", to=" + to +
+                ", carrier='" + carrier + '\'' +
+                ", departureTime='" + departureTime + '\'' +
+                ", arrivalTime='" + arrivalTime + '\'' +
+                '}';
     }
 }

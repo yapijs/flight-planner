@@ -33,31 +33,35 @@ public class AdminInMemoryService {
     }
 
     private void validateAddingFlightRequest(AddFlightRequest addFlightRequest) {
-        if (validateDatesAddFlightRequest(addFlightRequest) ||
-                validateAirportsAddFlightRequest(addFlightRequest)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if (validateDatesAddFlightRequest(addFlightRequest)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect dates!");
+//            System.out.println("incorrect dates=\n" + addFlightRequest.toString());
+//            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Incorrect dates!");
+        }
+        if (validateAirportsAddFlightRequest(addFlightRequest)) {
+//            System.out.println("same airports=\n" + addFlightRequest.toString());
+//            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Same airports entered!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Same airports entered!");
         }
 
     }
 
     private boolean validateAirportsAddFlightRequest(AddFlightRequest addFlightRequest) {
-        return addFlightRequest.getFrom().equals(addFlightRequest.getTo()) ||
-                addFlightRequest.getFrom().formatAirport().equals(addFlightRequest.getTo().formatAirport()) ||
-                addFlightRequest.getFrom().formatCity().equals(addFlightRequest.getTo().formatCity()) ||
-                addFlightRequest.getFrom().formatCountry().equals(addFlightRequest.getTo().formatCountry());
+        return addFlightRequest.getFrom().formatAirport().equals(addFlightRequest.getTo().formatAirport())
+                && addFlightRequest.getFrom().formatCity().equals(addFlightRequest.getTo().formatCity())
+                && addFlightRequest.getFrom().formatCountry().equals(addFlightRequest.getTo().formatCountry());
     }
 
     private boolean validateDatesAddFlightRequest(AddFlightRequest addFlightRequest) {
-        LocalDateTime dateTimeArrival = LocalDateTime.parse(addFlightRequest.getArrivalTime(), getFormatter());
         LocalDateTime dateTimeDeparture = LocalDateTime.parse(addFlightRequest.getDepartureTime(), getFormatter());
-
-        return dateTimeDeparture.compareTo(dateTimeArrival) != -1;
+        LocalDateTime dateTimeArrival = LocalDateTime.parse(addFlightRequest.getArrivalTime(), getFormatter());
+        return dateTimeDeparture.compareTo(dateTimeArrival) >= 0;
     }
 
     private Flight createNewFlightObject(AddFlightRequest addFlightRequest) {
 
         return new Flight(
-                adminInMemoryRepository.getNextId(),
+                adminInMemoryRepository.getNextId().intValue(),
                 addFlightRequest.getFrom(),
                 addFlightRequest.getTo(),
                 addFlightRequest.getCarrier(),
@@ -81,25 +85,24 @@ public class AdminInMemoryService {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
 
-    public AddFlightResponse fetchFlight(long flightId) {
+    public AddFlightResponse fetchFlight(int flightId) {
         Flight flight = findFlight(flightId);
         if (flight != null) {
             return createNewResponseFlightObject(findFlight(flightId));
         } else {
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-    private Flight findFlight(long flightId) {
+    private Flight findFlight(int flightId) {
         return adminInMemoryRepository.getFlightList()
                 .stream()
-                .filter( flight -> flight.getId() == flightId)
+                .filter(flight -> flight.getId() == flightId)
                 .findFirst()
                 .orElse(null);
-                //.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public void deleteFlight(Long flightId) {
+    public void deleteFlight(int flightId) {
         Flight flightToDelete = findFlight(flightId);
         if (flightToDelete != null) {
             adminInMemoryRepository.getFlightList().remove(flightToDelete);
