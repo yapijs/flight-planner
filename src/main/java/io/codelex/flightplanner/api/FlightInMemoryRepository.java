@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.api.admin;
+package io.codelex.flightplanner.api;
 
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.stereotype.Repository;
@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AdminInMemoryRepository {
+public class FlightInMemoryRepository {
 
     List<Flight> flightList = new ArrayList<>();
     private int nextId;
 
-    public AdminInMemoryRepository() {
+    public FlightInMemoryRepository() {
         nextId = 0;
     }
 

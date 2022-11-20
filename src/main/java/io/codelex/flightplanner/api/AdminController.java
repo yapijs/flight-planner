@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.api.admin;
+package io.codelex.flightplanner.api;
 
 import io.codelex.flightplanner.domain.AddFlightRequest;
 import io.codelex.flightplanner.domain.Flight;
@@ -11,26 +11,26 @@ import javax.validation.Valid;
 @RequestMapping("/admin-api")
 public class AdminController {
 
-    private AdminInMemoryService adminService;
+    private FlightInMemoryService service;
 
-    public AdminController(AdminInMemoryService adminService) {
-        this.adminService = adminService;
+    public AdminController(FlightInMemoryService service) {
+        this.service = service;
     }
 
     @PutMapping("/flights")
     @ResponseStatus(HttpStatus.CREATED)
     public Flight addFlight(@Valid @RequestBody AddFlightRequest addFlightRequest) {
-        return adminService.addFlight(addFlightRequest);
+        return service.addFlight(addFlightRequest);
     }
 
     @GetMapping("/flights/{id}")
-    public Flight fetchFlight(@PathVariable("id") int id) {
-        return adminService.fetchFlight(id);
+    public Flight findFlight(@PathVariable("id") int id) {
+        return service.fetchFlight(id);
     }
 
     @DeleteMapping("/flights/{id}")
     public void deleteFlight(@PathVariable("id") int id) {
-        adminService.deleteFlight(id);
+        service.deleteFlight(id);
     }
 
 }
