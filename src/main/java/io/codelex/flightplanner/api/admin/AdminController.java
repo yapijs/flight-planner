@@ -1,7 +1,7 @@
 package io.codelex.flightplanner.api.admin;
 
 import io.codelex.flightplanner.domain.AddFlightRequest;
-import io.codelex.flightplanner.domain.AddFlightResponse;
+import io.codelex.flightplanner.domain.Flight;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +19,12 @@ public class AdminController {
 
     @PutMapping("/flights")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddFlightResponse addFlight(@Valid @RequestBody AddFlightRequest addFlightRequest) {
+    public Flight addFlight(@Valid @RequestBody AddFlightRequest addFlightRequest) {
         return adminService.addFlight(addFlightRequest);
     }
 
     @GetMapping("/flights/{id}")
-    public AddFlightResponse fetchFlight(@PathVariable("id") int id) {
+    public Flight fetchFlight(@PathVariable("id") int id) {
         return adminService.fetchFlight(id);
     }
 

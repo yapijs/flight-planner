@@ -27,7 +27,7 @@ public class CustomerController {
     }
 
     @GetMapping("/flights/{id}")
-    public AddFlightResponse findFlightById(@PathVariable long id) {
+    public Flight findFlightById(@PathVariable long id) {
         return customerService.findFlightById(id);
     }
 }

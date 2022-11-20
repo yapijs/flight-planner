@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.codelex.flightplanner.api.common.CommonFunctions.createNewResponseFlightObject;
 
 @Service
 public class CustomerService {
@@ -65,10 +64,10 @@ public class CustomerService {
         }
     }
 
-    public AddFlightResponse findFlightById(long id) {
+    public Flight findFlightById(long id) {
         for(Flight flight: adminInMemoryRepository.getFlightList() ) {
             if (id == flight.getId()) {
-                return createNewResponseFlightObject(flight);
+                return flight;
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);

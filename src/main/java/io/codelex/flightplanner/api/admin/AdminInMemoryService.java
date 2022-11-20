@@ -1,7 +1,6 @@
 package io.codelex.flightplanner.api.admin;
 
 import io.codelex.flightplanner.domain.AddFlightRequest;
-import io.codelex.flightplanner.domain.AddFlightResponse;
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
-import static io.codelex.flightplanner.api.common.CommonFunctions.createNewResponseFlightObject;
 import static io.codelex.flightplanner.api.common.CommonFunctions.getFormatter;
 
 @Service
@@ -21,7 +19,7 @@ public class AdminInMemoryService {
         this.adminInMemoryRepository = adminInMemoryRepository;
     }
 
-    public AddFlightResponse addFlight(AddFlightRequest addFlightRequest) {
+    public Flight addFlight(AddFlightRequest addFlightRequest) {
         validateAddingFlightRequest(addFlightRequest);
 
         Flight flight = createNewFlightObject(addFlightRequest);
@@ -29,8 +27,7 @@ public class AdminInMemoryService {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
 
-        Flight addedFlight = adminInMemoryRepository.addFlight(flight);
-        return createNewResponseFlightObject(addedFlight);
+        return adminInMemoryRepository.addFlight(flight);
     }
 
     private void validateAddingFlightRequest(AddFlightRequest addFlightRequest) {
@@ -67,10 +64,10 @@ public class AdminInMemoryService {
         );
     }
 
-    public AddFlightResponse fetchFlight(int flightId) {
+    public Flight fetchFlight(int flightId) {
         Flight flight = findFlight(flightId);
         if (flight != null) {
-            return createNewResponseFlightObject(findFlight(flightId));
+            return findFlight(flightId);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
