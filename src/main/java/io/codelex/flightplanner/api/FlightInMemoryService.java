@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static io.codelex.flightplanner.api.common.CommonFunctions.getFormatter;
 
@@ -66,26 +67,22 @@ public class FlightInMemoryService {
     }
 
     public Flight fetchFlight(int flightId) {
-        Flight flight = findFlight(flightId);
-        if (flight == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return flight;
-    }
-
-    private Flight findFlight(int flightId) {
-        return flightInMemoryRepository.getFlightList()
-                .stream()
-                .filter(flight -> flight.getId() == flightId)
-                .findFirst()
-                .orElse(null);
+        return findFlight(flightId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found"));
     }
 
     public void deleteFlight(int flightId) {
-        Flight flightToDelete = findFlight(flightId);
-        if (flightToDelete != null) {
-            flightInMemoryRepository.getFlightList().remove(flightToDelete);
-        }
+        findFlight(flightId)
+                .ifPresent(flight -> flightInMemoryRepository
+                        .getFlightList()
+                        .remove(flight));
+    }
+
+    private Optional<Flight> findFlight(int flightId) {
+        return flightInMemoryRepository.getFlightList()
+                .stream()
+                .filter(flight -> flight.getId() == flightId)
+                .findFirst();
     }
 
     public List<Airport> searchAirports(String search) {
@@ -110,13 +107,10 @@ public class FlightInMemoryService {
 
     public PageResult<Flight> searchFlights(SearchFlightRequest searchFlightRequest) {
         validateSearchFlightRequest(searchFlightRequest);
-        List<Flight> matchingFlights = new ArrayList<>();
-
-        for (Flight flight : flightInMemoryRepository.getFlightList()) {
-            if (compareSearchAndFlight(searchFlightRequest, flight)) {
-                matchingFlights.add(flight);
-            }
-        }
+        List<Flight> matchingFlights = flightInMemoryRepository.getFlightList()
+                .stream()
+                .filter(flight -> compareSearchAndFlight(searchFlightRequest, flight))
+                .toList();
 
         return new PageResult<>(0, matchingFlights.size(), matchingFlights);
     }
