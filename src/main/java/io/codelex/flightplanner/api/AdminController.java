@@ -11,7 +11,7 @@ import javax.validation.Valid;
 @RequestMapping("/admin-api")
 public class AdminController {
 
-    private FlightInMemoryService service;
+    private final FlightInMemoryService service;
 
     public AdminController(FlightInMemoryService service) {
         this.service = service;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/testing-api")
 public class TestingController {
 
-    private FlightInMemoryService service;
+    private final FlightInMemoryService service;
 
     public TestingController(FlightInMemoryService service) {
         this.service = service;

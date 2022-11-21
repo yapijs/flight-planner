@@ -15,13 +15,16 @@ import static io.codelex.flightplanner.api.common.CommonFunctions.getFormatter;
 @Service
 public class FlightInMemoryService {
 
-    private FlightInMemoryRepository flightInMemoryRepository;
+    private final FlightInMemoryRepository flightInMemoryRepository;
 
     public FlightInMemoryService(FlightInMemoryRepository flightInMemoryRepository) {
         this.flightInMemoryRepository = flightInMemoryRepository;
     }
 
     public Flight addFlight(AddFlightRequest addFlightRequest) {
+        addFlightRequest.getFrom().formatAirportObject();
+        addFlightRequest.getTo().formatAirportObject();
+
         validateAddingFlightRequest(addFlightRequest);
 
         Flight flight = createNewFlightObject(addFlightRequest);
@@ -39,13 +42,12 @@ public class FlightInMemoryService {
         if (validateAirportsAddFlightRequest(addFlightRequest)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Same airports entered!");
         }
-
     }
 
     private boolean validateAirportsAddFlightRequest(AddFlightRequest addFlightRequest) {
-        return addFlightRequest.getFrom().formatAirport().equals(addFlightRequest.getTo().formatAirport())
-                && addFlightRequest.getFrom().formatCity().equals(addFlightRequest.getTo().formatCity())
-                && addFlightRequest.getFrom().formatCountry().equals(addFlightRequest.getTo().formatCountry());
+        return addFlightRequest.getFrom().getAirport().equals(addFlightRequest.getTo().getAirport())
+                && addFlightRequest.getFrom().getCity().equals(addFlightRequest.getTo().getCity())
+                && addFlightRequest.getFrom().getCountry().equals(addFlightRequest.getTo().getCountry());
     }
 
     private boolean validateDatesAddFlightRequest(AddFlightRequest addFlightRequest) {
@@ -55,7 +57,6 @@ public class FlightInMemoryService {
     }
 
     private Flight createNewFlightObject(AddFlightRequest addFlightRequest) {
-
         return new Flight(
                 flightInMemoryRepository.getNextId(),
                 addFlightRequest.getFrom(),

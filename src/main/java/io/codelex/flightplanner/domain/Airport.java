@@ -63,6 +63,12 @@ public class Airport {
         return Arrays.stream(result).reduce("", (s, s2) ->  s + " " + s2).trim();
     }
 
+    public void formatAirportObject() {
+        setAirport(formatAirport());
+        setCity(formatCity());
+        setCountry(formatCountry());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

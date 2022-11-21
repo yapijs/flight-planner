@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CustomerController {
 
-    private FlightInMemoryService service;
+    private final FlightInMemoryService service;
 
     public CustomerController(FlightInMemoryService service) {
         this.service = service;
