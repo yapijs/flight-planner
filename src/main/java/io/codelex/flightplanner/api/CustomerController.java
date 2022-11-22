@@ -1,6 +1,8 @@
 package io.codelex.flightplanner.api;
 
 import io.codelex.flightplanner.domain.*;
+import io.codelex.flightplanner.dto.PageResult;
+import io.codelex.flightplanner.dto.SearchFlightRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

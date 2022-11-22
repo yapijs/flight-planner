@@ -1,6 +1,9 @@
 package io.codelex.flightplanner.api;
 
 import io.codelex.flightplanner.domain.*;
+import io.codelex.flightplanner.dto.AddFlightRequest;
+import io.codelex.flightplanner.dto.PageResult;
+import io.codelex.flightplanner.dto.SearchFlightRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.codelex.flightplanner.api.common.CommonFunctions.getFormatter;
 
@@ -82,7 +86,7 @@ public class FlightInMemoryService {
     private Optional<Flight> findFlight(int flightId) {
         return flightInMemoryRepository.getFlightList()
                 .stream()
-                .filter(flight -> flight.getId() == flightId)
+                .filter(flight -> flight.getId().get() == flightId)
                 .findFirst();
     }
 
@@ -129,7 +133,6 @@ public class FlightInMemoryService {
     }
 
     public void clearData() {
-        flightInMemoryRepository.getFlightList().clear();
-        flightInMemoryRepository.resetLastUsedId();
+        flightInMemoryRepository.clearData();
     }
 }

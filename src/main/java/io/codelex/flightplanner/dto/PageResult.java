@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.domain;
+package io.codelex.flightplanner.dto;
 
 import java.util.List;
 import java.util.Objects;

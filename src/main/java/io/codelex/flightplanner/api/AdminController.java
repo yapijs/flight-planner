@@ -1,6 +1,6 @@
 package io.codelex.flightplanner.api;
 
-import io.codelex.flightplanner.domain.AddFlightRequest;
+import io.codelex.flightplanner.dto.AddFlightRequest;
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

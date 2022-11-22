@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Flight {
-    private int id;
+    private AtomicInteger id;
     private Airport from;
     private Airport to;
     private String carrier;
@@ -15,7 +16,7 @@ public class Flight {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime arrivalTime;
 
-    public Flight(int id, Airport from, Airport to, String carrier, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+    public Flight(AtomicInteger id, Airport from, Airport to, String carrier, LocalDateTime departureTime, LocalDateTime arrivalTime) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -24,11 +25,11 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public int getId() {
+    public AtomicInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(AtomicInteger id) {
         this.id = id;
     }
 
